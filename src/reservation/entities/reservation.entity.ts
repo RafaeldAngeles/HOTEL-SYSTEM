@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { RoomType } from './room-type.enum';
+import { RoomType } from '../../room/entities/room-type.enum';
 
 @Entity()
 export class Reservation {
