@@ -16,12 +16,10 @@ export class Reservation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // RELAÇÃO COM USER
   @ManyToOne(() => User, (user) => user.reservations)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  // RELAÇÃO COM ROOM
   @ManyToOne(() => Room, (room) => room.reservations)
   @JoinColumn({ name: 'room_id' })
   room: Room;
