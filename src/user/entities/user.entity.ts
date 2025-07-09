@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './role.enum';
+import { Reservation } from 'src/reservation/entities/reservation.entity';
 
 @Entity()
 export class User {
@@ -18,7 +19,10 @@ export class User {
   @Column({
     type: 'enum',
     enum: Role,
-    default: Role.Guest, // opcional
+    default: Role.Guest,
   })
   role: Role;
+
+  @OneToMany(() => Reservation, (reservation) => reservation.user)
+  reservations: Reservation[];
 }

@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { RoomType } from './room-type.enum';
+import { Reservation } from 'src/reservation/entities/reservation.entity';
 
 @Entity()
 export class Room {
@@ -18,4 +19,7 @@ export class Room {
 
   @Column()
   price: number;
+
+  @OneToMany(() => Reservation, (reservation) => reservation.room)
+  reservations: Reservation[];
 }

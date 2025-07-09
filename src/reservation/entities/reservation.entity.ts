@@ -1,21 +1,44 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { RoomType } from '../../room/entities/room-type.enum';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+} from 'typeorm';
+
+import { User } from 'src/user/entities/user.entity';
+import { Room } from 'src/room/entities/room.entity';
+import { ReservationStatus } from './reservation-type.enum';
 
 @Entity()
 export class Reservation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  number: number;
+  // RELAÇÃO COM USER
+  @ManyToOne(() => User, (user) => user.reservations)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  // RELAÇÃO COM ROOM
+  @ManyToOne(() => Room, (room) => room.reservations)
+  @JoinColumn({ name: 'room_id' })
+  room: Room;
+
+  @Column({ type: 'date' })
+  start_date: Date;
+
+  @Column({ type: 'date' })
+  end_date: Date;
 
   @Column({
     type: 'enum',
-    enum: RoomType,
-    default: RoomType.Single,
+    enum: ReservationStatus,
+    default: ReservationStatus.Disponivel,
   })
-  type: RoomType;
+  status: ReservationStatus;
 
-  @Column()
-  price: number;
+  @CreateDateColumn({ type: 'timestamp' })
+  created: Date;
 }
