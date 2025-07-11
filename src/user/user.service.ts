@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -12,11 +12,21 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
   async create(data: CreateUserDto): Promise<User> {
+    const userExists = await this.userRepository.findOne({
+      where: { email: data.email },
+    });
+
+    if (userExists) {
+      throw new BadRequestException('Este e-mail já está em uso.');
+    }
+
     const hashedPassword = await bcrypt.hash(data.password, 10);
+
     const user = this.userRepository.create({
       ...data,
       password: hashedPassword,
     });
+
     return this.userRepository.save(user);
   }
 

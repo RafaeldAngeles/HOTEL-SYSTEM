@@ -13,11 +13,11 @@ export class AuthService {
   async login(data: LoginDto) {
     const user = await this.userService.findByEmail(data.email);
     if (!user) {
-      throw new UnauthorizedException('Usuário não encontrado');
+      throw new UnauthorizedException('Usuário ou Senha inválidos');
     }
 
     const isPasswordValid = await bcrypt.compare(data.password, user.password);
-    if (!isPasswordValid) {
+    if (!isPasswordValid || !user) {
       throw new UnauthorizedException('Usuário ou Senha inválidos');
     }
 
