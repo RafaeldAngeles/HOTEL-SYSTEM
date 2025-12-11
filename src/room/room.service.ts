@@ -14,20 +14,21 @@ export class RoomService {
   create(data: CreateRoomDto) {
     return this.repository.create(data)
   }
+  
+  findById(id: number) {
+    return this.repository.findById(id);
+  }
 
   findAll() {
-    return `This action returns all room`;
+    return this.repository.findAll()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} room`;
-  }
 
   update(id: number, updateRoomDto: UpdateRoomDto) {
-    return `This action updates a #${id} room`;
+    return this.repository.update(id, updateRoomDto)
   }
 
   remove(id: number) {
-    return `This action removes a #${id} room`;
+    return this.repository.delete(id)
   }
 }

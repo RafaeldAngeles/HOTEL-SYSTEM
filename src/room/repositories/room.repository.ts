@@ -24,12 +24,18 @@ export class RoomRepository implements IRoomRepository{
         
     }
 
-     create(data: Partial<Room>): Promise<Room> {
-    const reservation = this.repo.create(data);
-    return this.repo.save(reservation);
+    create(data: Partial<Room>): Promise<Room> {
+    const room = this.repo.create(data);
+    return this.repo.save(room);
   }
 
     async delete(id: number): Promise<void> {
         await this.repo.delete(id);
     }
+
+    async update(id: number, data: Partial<Room>) {
+        await this.repo.update(id, data);
+        return this.findById(id);
+    }
+
 }

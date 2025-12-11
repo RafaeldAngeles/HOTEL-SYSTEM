@@ -26,23 +26,27 @@ export class RoomController {
     return this.roomService.create(createRoomDto);
   }
 
-  @Get()
-  findAll() {
-    return this.roomService.findAll();
-  }
-
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.roomService.findOne(+id);
+  @Roles(UserRole.Admin)
+  findById(@Param('id') id: string) {
+    return this.roomService.findById(+id);
   }
 
   @Patch(':id')
+  @Roles(UserRole.Admin)
   update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
     return this.roomService.update(+id, updateRoomDto);
   }
 
   @Delete(':id')
+  @Roles(UserRole.Admin)
   remove(@Param('id') id: string) {
     return this.roomService.remove(+id);
+  }
+
+  @Get("")
+  @Roles(UserRole.Admin)
+  findAll() {
+    return this.roomService.findAll();
   }
 }
