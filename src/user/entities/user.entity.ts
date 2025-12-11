@@ -2,6 +2,10 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './role.enum';
 import { Reservation } from 'src/reservation/entities/reservation.entity';
 
+export enum UserRole {
+  Admin = "admin",
+  User = "guest"
+}
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -18,10 +22,10 @@ export class User {
 
   @Column({
     type: 'enum',
-    enum: Role,
-    default: Role.Guest,
+    enum: UserRole,
+    default: UserRole.User,
   })
-  role: Role;
+  role: UserRole;
 
   @OneToMany(() => Reservation, (reservation) => reservation.user_id)
   reservations: Reservation[];
