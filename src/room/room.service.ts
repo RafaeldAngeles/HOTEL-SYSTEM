@@ -1,11 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
+import { IRoomRepository } from './repositories/room.repository.interfaces';
 
 @Injectable()
 export class RoomService {
-  create(createRoomDto: CreateRoomDto) {
-    return 'This action adds a new room';
+
+  constructor(
+    @Inject ("IRoomRepository")
+    private readonly repository: IRoomRepository,
+  ){}
+
+  create(data: CreateRoomDto) {
+    return this.repository.create(data)
   }
 
   findAll() {

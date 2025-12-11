@@ -14,15 +14,15 @@ import { ReservationStatus } from './reservation-type.enum';
 @Entity()
 export class Reservation {
   @PrimaryGeneratedColumn()
-  id: number;
+  id_reservation: number;
 
   @ManyToOne(() => User, (user) => user.reservations)
   @JoinColumn({ name: 'user_id' })
-  user: User;
+  user_id: User;
 
   @ManyToOne(() => Room, (room) => room.reservations)
-  @JoinColumn({ name: 'room_id' })
-  room: Room;
+  @JoinColumn({ name: 'number_room' })
+  number_room: Room;
 
   @Column({ type: 'date' })
   start_date: Date;

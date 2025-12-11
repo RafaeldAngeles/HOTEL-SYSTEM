@@ -5,7 +5,7 @@ import { Reservation } from 'src/reservation/entities/reservation.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  user_id: number;
 
   @Column()
   name: string;
@@ -23,6 +23,6 @@ export class User {
   })
   role: Role;
 
-  @OneToMany(() => Reservation, (reservation) => reservation.user)
+  @OneToMany(() => Reservation, (reservation) => reservation.user_id)
   reservations: Reservation[];
 }

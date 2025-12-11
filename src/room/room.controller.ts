@@ -15,7 +15,7 @@ import { UpdateRoomDto } from './dto/update-room.dto';
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
-  @Post()
+  @Post("create/")
   create(@Body() createRoomDto: CreateRoomDto) {
     return this.roomService.create(createRoomDto);
   }

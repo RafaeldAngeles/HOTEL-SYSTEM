@@ -5,21 +5,20 @@ import { Reservation } from 'src/reservation/entities/reservation.entity';
 @Entity()
 export class Room {
   @PrimaryGeneratedColumn()
-  id: number;
+  room_id: number;
 
   @Column()
-  number: number;
-
-  @Column({
-    type: 'enum',
-    enum: RoomType,
-    default: RoomType.Single,
-  })
-  type: RoomType;
+  number_room: number;
 
   @Column()
-  price: number;
+  price_room: number;
 
-  @OneToMany(() => Reservation, (reservation) => reservation.room)
+  @Column({type:"text"})
+  description_room: string
+
+  @Column()
+  capacity_room: number
+
+  @OneToMany(() => Reservation, (reservation) => reservation.number_room)
   reservations: Reservation[];
 }
