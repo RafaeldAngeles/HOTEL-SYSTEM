@@ -33,7 +33,7 @@ export class ReservationRepository implements IReservationRepository{
 
     findByRoom(number_room: number): Promise<Reservation[]> {
         return this.repo.find({
-            where:{number_room:{
+            where:{room:{
                 room_id:number_room
             }},
         })

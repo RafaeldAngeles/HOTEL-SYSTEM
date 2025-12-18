@@ -3,6 +3,7 @@ import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { IReservationRepository } from './repositories/reservation.repository.interface';
 import { IRoomRepository } from 'src/room/repositories/room.repository.interfaces';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class ReservationService {
@@ -13,7 +14,7 @@ export class ReservationService {
     private readonly repositoryRoom: IRoomRepository
   ){}
   
-  async create(data: CreateReservationDto) {
+  async create(data: CreateReservationDto, user: User){
     const now = new Date()
     if (data.start_date < now) {
       throw new BadRequestException('Data inválida!')
@@ -34,7 +35,7 @@ export class ReservationService {
       }
     }
 
-    return this.repository.create(data)
+    return this.repository.create({...data, user_id: user, room: room})
   }
 
   findAll() {

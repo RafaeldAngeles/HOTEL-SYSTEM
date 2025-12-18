@@ -22,20 +22,13 @@ export class Reservation {
 
   @ManyToOne(() => Room, (room) => room.reservations)
   @JoinColumn({ name: 'number_room' })
-  number_room: Room;
+  room: Room;
 
   @Column({ type: 'date' })
   start_date: Date;
 
   @Column({ type: 'date' })
   end_date: Date;
-
-  @Column({
-    type: 'enum',
-    enum: ReservationStatus,
-    default: ReservationStatus.Disponivel,
-  })
-  status: ReservationStatus;
 
   @CreateDateColumn({ type: 'timestamp' })
   created: Date;

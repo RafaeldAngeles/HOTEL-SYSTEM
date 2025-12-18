@@ -19,6 +19,6 @@ export class Room {
   @Column()
   capacity_room: number
 
-  @OneToMany(() => Reservation, (reservation) => reservation.number_room)
+  @OneToMany(() => Reservation, (reservation) => reservation.room)
   reservations: Reservation[];
 }
