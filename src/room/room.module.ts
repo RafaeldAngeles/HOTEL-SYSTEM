@@ -10,7 +10,7 @@ import { RoomRepository } from './repositories/room.repository';
   controllers: [RoomController],
   providers: [RoomService, {provide:"IRoomRepository", useClass: RoomRepository}],
 
-  exports:[{provide: "IRoomRepository", useClass: RoomRepository}]
+  exports:[ "IRoomRepository"]
   
 })
 export class RoomModule {}
