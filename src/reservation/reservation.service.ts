@@ -6,29 +6,33 @@ import { IRoomRepository } from 'src/room/repositories/room.repository.interface
 
 @Injectable()
 export class ReservationService {
-
   constructor(
-    
     @Inject("IReservationRepository")
     private readonly repository: IReservationRepository,
-    
     @Inject("IRoomRepository")
     private readonly repositoryRoom: IRoomRepository
   ){}
   
   async create(data: CreateReservationDto) {
-
     const now = new Date()
     if (data.start_date < now) {
       throw new BadRequestException('Data inválida!')
     }
-
     const room = await this.repositoryRoom.findById(data.room_id)
     if (!room){
       throw new NotFoundException("Sala não encontrada")
     }
 
-  // confirmar se quarta está sendo usado nessa data
+    const reservationRoom = await this.repository.findByRoom(room.room_id)
+    for (const reservation of reservationRoom ){
+      const hasConflit =
+        data.start_date < reservation.end_date &&
+        data.end_date > reservation.start_date
+      
+      if (hasConflit){
+        throw new BadRequestException("conflito de reserva")
+      }
+    }
 
     return this.repository.create(data)
   }

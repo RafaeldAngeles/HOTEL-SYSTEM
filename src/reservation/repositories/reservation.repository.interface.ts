@@ -7,5 +7,6 @@ export interface IReservationRepository{
     findById(id: number): Promise<Reservation | null>;
     create (data: Partial<Reservation>): Promise<Reservation>;
     delete (id: number): Promise<void>
+    findByRoom(room_id:number): Promise<Reservation[]>
 
 }

@@ -30,4 +30,12 @@ export class ReservationRepository implements IReservationRepository{
     async delete(id: number): Promise<void> {
         await this.repo.delete(id);
     }
+
+    findByRoom(number_room: number): Promise<Reservation[]> {
+        return this.repo.find({
+            where:{number_room:{
+                room_id:number_room
+            }},
+        })
+    }
 }
