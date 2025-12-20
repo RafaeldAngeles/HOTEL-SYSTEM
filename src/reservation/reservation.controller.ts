@@ -35,8 +35,8 @@ export class ReservationController {
 
   @Get(':id')
   @Roles(UserRole.User)
-  findById(@Param('id') id: string) {
-    return this.reservationService.findById(+id);
+  findById(@Param('id') id: string, @Req() req ) {
+    return this.reservationService.findById(+id, req.user);
   }
 
   @Delete(':id')

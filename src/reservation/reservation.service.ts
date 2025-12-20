@@ -43,8 +43,8 @@ export class ReservationService {
 }
 
 
-  findById(id: number) {
-    return this.repository.findById(id);
+  findById(id: number, user: User) {
+    return this.repository.findById(id, user);
   }
 
   delete(id: number) {

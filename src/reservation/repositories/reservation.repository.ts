@@ -22,8 +22,10 @@ export class ReservationRepository implements IReservationRepository{
   });
 }
 
-    findById(id_reservation: number): Promise<Reservation | null> {
-        return this.repo.findOne({where: {id_reservation}})
+    findById(id_reservation: number, user:User): Promise<Reservation | null> {
+        return this.repo.findOne({where: {id_reservation,
+            user: {user_id: user.user_id}
+        }})
         
     }
 
