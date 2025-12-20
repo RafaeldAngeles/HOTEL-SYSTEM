@@ -18,7 +18,7 @@ export class Reservation {
 
   @ManyToOne(() => User, (user) => user.reservations)
   @JoinColumn({ name: 'user_id' })
-  user_id: User;
+  user: User;
 
   @ManyToOne(() => Room, (room) => room.reservations)
   @JoinColumn({ name: 'number_room' })

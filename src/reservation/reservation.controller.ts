@@ -29,8 +29,8 @@ export class ReservationController {
 
   @Get()
   @Roles(UserRole.User)
-  findAll() {
-    return this.reservationService.findAll();
+  findAll(@Req() req) {
+    return this.reservationService.findAll(req.user);
   }
 
   @Get(':id')

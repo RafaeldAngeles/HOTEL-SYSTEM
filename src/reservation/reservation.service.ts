@@ -35,12 +35,13 @@ export class ReservationService {
       }
     }
 
-    return this.repository.create({...data, user_id: user, room: room})
+    return this.repository.create({...data, user: user, room: room})
   }
 
-  findAll() {
-      return this.repository.findAll();
-  }
+  findAll(user: User) {
+  return this.repository.findAll(user);
+}
+
 
   findById(id: number) {
     return this.repository.findById(id);

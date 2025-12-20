@@ -27,6 +27,6 @@ export class User {
   })
   role: UserRole;
 
-  @OneToMany(() => Reservation, (reservation) => reservation.user_id)
+  @OneToMany(() => Reservation, (reservation) => reservation.user)
   reservations: Reservation[];
 }
