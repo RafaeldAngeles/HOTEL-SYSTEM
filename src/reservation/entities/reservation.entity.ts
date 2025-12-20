@@ -9,8 +9,6 @@ import {
 
 import { User } from 'src/user/entities/user.entity';
 import { Room } from 'src/room/entities/room.entity';
-import { ReservationStatus } from './reservation-type.enum';
-
 @Entity()
 export class Reservation {
   @PrimaryGeneratedColumn()

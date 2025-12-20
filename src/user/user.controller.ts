@@ -12,7 +12,7 @@ export class UserController {
   create(@Body() createUserDto: CreateUserDto) {
     try {
       return this.userService.create(createUserDto);
-    } catch (ersr) {
+    } catch (err) {
       throw new BadRequestException('Erro ao cadastrar usuário');
     }
   }
