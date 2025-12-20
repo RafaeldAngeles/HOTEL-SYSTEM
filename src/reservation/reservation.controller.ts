@@ -21,9 +21,9 @@ import { UserRole } from 'src/user/entities/user.entity';
 export class ReservationController {
   constructor(private readonly reservationService: ReservationService) {}
 
-  @Post("reservation-create")
+  @Post('reservation-create')
   @Roles(UserRole.User)
-  create(@Body() createReservationDto: CreateReservationDto,   @Req() req) {
+  create(@Body() createReservationDto: CreateReservationDto, @Req() req) {
     return this.reservationService.create(createReservationDto, req.user);
   }
 
@@ -35,7 +35,7 @@ export class ReservationController {
 
   @Get(':id')
   @Roles(UserRole.User)
-  findById(@Param('id') id: string, @Req() req ) {
+  findById(@Param('id') id: string, @Req() req) {
     return this.reservationService.findById(+id, req.user);
   }
 

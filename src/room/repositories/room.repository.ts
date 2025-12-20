@@ -1,41 +1,36 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
-import { Repository } from "typeorm";
-import { IRoomRepository } from "./room.repository.interfaces";
-import { Room } from "../entities/room.entity";
-
-
-
+import { Repository } from 'typeorm';
+import { IRoomRepository } from './room.repository.interfaces';
+import { Room } from '../entities/room.entity';
 
 @Injectable()
-export class RoomRepository implements IRoomRepository{
-    constructor(
-        @InjectRepository(Room)
-        private readonly repo: Repository <Room>,
-    ){}
+export class RoomRepository implements IRoomRepository {
+  constructor(
+    @InjectRepository(Room)
+    private readonly repo: Repository<Room>,
+  ) {}
 
-    findAll(): Promise<Room[]> {
-        return this.repo.find();
-    }
+  findAll(): Promise<Room[]> {
+    return this.repo.find();
+  }
 
-    findById(room_id: number): Promise<Room | null> {
-        return this.repo.findOne({where: {room_id}})
-        
-    }
+  findById(room_id: number): Promise<Room | null> {
+    return this.repo.findOne({ where: { room_id } });
+  }
 
-    create(data: Partial<Room>): Promise<Room> {
+  create(data: Partial<Room>): Promise<Room> {
     const room = this.repo.create(data);
     return this.repo.save(room);
   }
 
-    async delete(id: number): Promise<void> {
-        await this.repo.delete(id);
-    }
+  async delete(id: number): Promise<void> {
+    await this.repo.delete(id);
+  }
 
-    async update(id: number, data: Partial<Room>) {
-        await this.repo.update(id, data);
-        return this.findById(id);
-    }
-
+  async update(id: number, data: Partial<Room>) {
+    await this.repo.update(id, data);
+    return this.findById(id);
+  }
 }

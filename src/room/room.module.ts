@@ -8,9 +8,11 @@ import { RoomRepository } from './repositories/room.repository';
 @Module({
   imports: [TypeOrmModule.forFeature([Room])],
   controllers: [RoomController],
-  providers: [RoomService, {provide:"IRoomRepository", useClass: RoomRepository}],
+  providers: [
+    RoomService,
+    { provide: 'IRoomRepository', useClass: RoomRepository },
+  ],
 
-  exports:[ "IRoomRepository"]
-  
+  exports: ['IRoomRepository'],
 })
 export class RoomModule {}

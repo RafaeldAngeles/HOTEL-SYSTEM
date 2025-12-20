@@ -20,7 +20,7 @@ import { UserRole } from 'src/user/entities/user.entity';
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
-  @Post("create/")
+  @Post('create/')
   @Roles(UserRole.Admin)
   create(@Body() createRoomDto: CreateRoomDto) {
     return this.roomService.create(createRoomDto);
@@ -44,7 +44,7 @@ export class RoomController {
     return this.roomService.remove(+id);
   }
 
-  @Get("")
+  @Get('')
   @Roles(UserRole.Admin)
   findAll() {
     return this.roomService.findAll();
