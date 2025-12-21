@@ -50,7 +50,15 @@ export class ReservationService {
     return this.repository.findById(id, user);
   }
 
-  delete(id: number) {
-    return this.repository.delete(id);
+  async delete(id: number, user: User): Promise<string> {
+    const reservation = await this.repository.findById(id, user);
+
+    if (!reservation) {
+      throw new NotFoundException('Reserva não encontrada');
+    }
+
+    await this.repository.delete(id, user);
+
+    return `A reserva ${id} foi deletada com sucesso!`;
   }
 }

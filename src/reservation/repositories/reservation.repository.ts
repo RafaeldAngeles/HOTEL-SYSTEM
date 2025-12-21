@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Reservation } from '../entities/reservation.entity';
-import { Repository } from 'typeorm';
 import { IReservationRepository } from './reservation.repository.interface';
 import { User } from 'src/user/entities/user.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ReservationRepository implements IReservationRepository {
@@ -31,8 +31,11 @@ export class ReservationRepository implements IReservationRepository {
     return this.repo.save(reservation);
   }
 
-  async delete(id: number): Promise<void> {
-    await this.repo.delete(id);
+  async delete(id: number, user: User): Promise<void> {
+    await this.repo.delete({
+      id_reservation: id,
+      user: { user_id: user.user_id },
+    });
   }
 
   findByRoom(number_room: number): Promise<Reservation[]> {

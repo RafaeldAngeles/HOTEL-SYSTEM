@@ -5,6 +5,6 @@ export interface IReservationRepository {
   findAll(user: User): Promise<Reservation[]>;
   findById(id: number, user: User): Promise<Reservation | null>;
   create(data: Partial<Reservation>): Promise<Reservation>;
-  delete(id: number): Promise<void>;
+  delete(id: number, user: User): Promise<void>;
   findByRoom(room_id: number): Promise<Reservation[]>;
 }
