@@ -1,14 +1,15 @@
 import {
   Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
   CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-
 import { User } from 'src/user/entities/user.entity';
 import { Room } from 'src/room/entities/room.entity';
+import { ReservationStatus } from './reservation-type.enum';
+
 @Entity()
 export class Reservation {
   @PrimaryGeneratedColumn()
@@ -19,7 +20,7 @@ export class Reservation {
   user: User;
 
   @ManyToOne(() => Room, (room) => room.reservations)
-  @JoinColumn({ name: 'number_room' })
+  @JoinColumn({ name: 'room_id' })
   room: Room;
 
   @Column({ type: 'date' })
@@ -27,6 +28,13 @@ export class Reservation {
 
   @Column({ type: 'date' })
   end_date: Date;
+
+  @Column({
+    type: 'enum',
+    enum: ReservationStatus,
+    default: ReservationStatus.Reservado,
+  })
+  status: ReservationStatus;
 
   @CreateDateColumn({ type: 'timestamp' })
   created: Date;

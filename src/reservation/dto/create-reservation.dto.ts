@@ -1,20 +1,13 @@
-import { IsString } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsDateString, IsInt, Min } from 'class-validator';
 
 export class CreateReservationDto {
+  @IsInt()
+  @Min(1)
   room_id: number;
 
-  @IsString()
-  @Transform(({ value }) => {
-    const [day, month, year] = value.split('/');
-    return new Date(`${year}-${month}-${day}`);
-  })
-  start_date: Date;
+  @IsDateString()
+  start_date: string;
 
-  @IsString()
-  @Transform(({ value }) => {
-    const [day, month, year] = value.split('/');
-    return new Date(`${year}-${month}-${day}`);
-  })
-  end_date: Date;
+  @IsDateString()
+  end_date: string;
 }

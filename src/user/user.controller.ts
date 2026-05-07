@@ -1,7 +1,21 @@
-import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  Req,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/auth/public.decorator';
+import { Roles } from 'src/auth/roles.decorator';
+import { UserRole } from './entities/user.entity';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Controller('user')
 export class UserController {
@@ -9,11 +23,22 @@ export class UserController {
 
   @Public()
   @Post('cadastro')
-  create(@Body() createUserDto: CreateUserDto) {
-    try {
-      return this.userService.create(createUserDto);
-    } catch (err) {
-      throw new BadRequestException('Erro ao cadastrar usuário');
-    }
+  async create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
+  }
+
+  @Get()
+  @Roles(UserRole.Admin)
+  async findAll(@Query() pagination: PaginationDto) {
+    return this.userService.findAll(pagination);
+  }
+
+  @Patch(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateUserDto,
+    @Req() req,
+  ) {
+    return this.userService.update(id, dto, req.user);
   }
 }

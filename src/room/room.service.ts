@@ -2,6 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { IRoomRepository } from './repositories/room.repository.interfaces';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginatedResult } from 'src/common/interfaces/paginated-result.interface';
+import { Room } from './entities/room.entity';
 
 @Injectable()
 export class RoomService {
@@ -18,8 +21,8 @@ export class RoomService {
     return this.repository.findById(id);
   }
 
-  findAll() {
-    return this.repository.findAll();
+  findAll(pagination: PaginationDto): Promise<PaginatedResult<Room>> {
+    return this.repository.findAllPaginated(pagination);
   }
 
   update(id: number, updateRoomDto: UpdateRoomDto) {

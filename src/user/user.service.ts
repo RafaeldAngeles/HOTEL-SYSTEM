@@ -1,9 +1,17 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import * as bcrypt from 'bcrypt';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+import { User, UserRole } from './entities/user.entity';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PaginatedResult } from 'src/common/interfaces/paginated-result.interface';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -32,5 +40,60 @@ export class UserService {
 
   async findByEmail(email: string): Promise<User | null> {
     return this.userRepository.findOne({ where: { email } });
+  }
+
+  async findById(id: number): Promise<User | null> {
+    return this.userRepository.findOne({
+      where: { user_id: id },
+      select: ['user_id', 'name', 'email', 'role'],
+    });
+  }
+
+  async update(
+    id: number,
+    dto: UpdateUserDto,
+    requestingUser: { user_id: number; role: UserRole },
+  ): Promise<User | null> {
+    if (
+      requestingUser.role !== UserRole.Admin &&
+      requestingUser.user_id !== id
+    ) {
+      throw new ForbiddenException(
+        'Você não tem permissão para atualizar este usuário',
+      );
+    }
+
+    if (dto.email) {
+      const existing = await this.userRepository.findOne({
+        where: { email: dto.email },
+      });
+      if (existing && existing.user_id !== id) {
+        throw new BadRequestException('Este e-mail já está em uso.');
+      }
+    }
+
+    const updateData: Partial<User> = { ...dto };
+    if (dto.password) {
+      updateData.password = await bcrypt.hash(dto.password, 10);
+    }
+
+    await this.userRepository.update(id, updateData);
+    return this.findById(id);
+  }
+
+  async findAll(pagination: PaginationDto): Promise<PaginatedResult<User>> {
+    const [data, total] = await this.userRepository.findAndCount({
+      skip: pagination.offset,
+      take: pagination.limit,
+      select: ['user_id', 'name', 'email', 'role'],
+    });
+
+    return {
+      data,
+      total,
+      page: pagination.page,
+      limit: pagination.limit,
+      totalPages: Math.ceil(total / pagination.limit),
+    };
   }
 }

@@ -3,8 +3,9 @@ import { Reservation } from 'src/reservation/entities/reservation.entity';
 
 export enum UserRole {
   Admin = 'admin',
-  User = 'guest',
+  Guest = 'guest',
 }
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -22,7 +23,7 @@ export class User {
   @Column({
     type: 'enum',
     enum: UserRole,
-    default: UserRole.User,
+    default: UserRole.Guest,
   })
   role: UserRole;
 
