@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RoomService } from './room.service';
 import { RoomType } from './entities/room-type.enum';
 import { Room } from './entities/room.entity';
-import { off } from 'process';
 
 // o mock do repositório: cada método é a função jest.fn() que pode ser configurada para retornar o que quisermos
 const mockRoomRepository = {
