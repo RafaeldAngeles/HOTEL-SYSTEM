@@ -31,8 +31,14 @@ import { validate } from './config/env.validation';
     }),
     ThrottlerModule.forRoot([
       {
+        name: 'default',
         ttl: 60000,
         limit: 10,
+      },
+      {
+        name: 'strict',
+        ttl: 60000,
+        limit: 5,
       },
     ]),
     DatabaseModule,
