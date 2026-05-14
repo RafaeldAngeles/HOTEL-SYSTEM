@@ -34,11 +34,13 @@ import { validate } from './config/env.validation';
         name: 'default',
         ttl: 60000,
         limit: 10,
+        skipIf: () => process.env.NODE_ENV === 'test',
       },
       {
         name: 'strict',
         ttl: 60000,
         limit: 5,
+        skipIf: () => process.env.NODE_ENV === 'test',
       },
     ]),
     DatabaseModule,
