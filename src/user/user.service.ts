@@ -35,7 +35,10 @@ export class UserService {
       password: hashedPassword,
     });
 
-    return this.userRepository.save(user);
+    const saved = await this.userRepository.save(user);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...result } = saved;
+    return result as User;
   }
 
   async findByEmail(email: string): Promise<User | null> {
