@@ -10,6 +10,7 @@ import { IReservationRepository } from './repositories/reservation.repository.in
 import { IRoomRepository } from 'src/room/repositories/room.repository.interfaces';
 import { User } from 'src/user/entities/user.entity';
 import { Reservation } from './entities/reservation.entity';
+import { Room } from 'src/room/entities/room.entity';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { PaginatedResult } from 'src/common/interfaces/paginated-result.interface';
 
@@ -22,13 +23,28 @@ export class ReservationService {
     private readonly repositoryRoom: IRoomRepository,
   ) {}
 
-  async create(data: CreateReservationDto, user: User) {
+  async create(data: CreateReservationDto, user: User): Promise<Reservation> {
     const startDate = new Date(data.start_date);
     const endDate = new Date(data.end_date);
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
 
-    if (startDate < now) {
+    this.validateDateRange(startDate, endDate);
+
+    const room = await this.findRoomOrFail(data.room_id);
+    await this.ensureNoReservationConflict(room.room_id, startDate, endDate);
+
+    return this.repository.create({
+      room,
+      user,
+      start_date: startDate,
+      end_date: endDate,
+    });
+  }
+
+  private validateDateRange(startDate: Date, endDate: Date): void {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (startDate < today) {
       throw new BadRequestException('Data de início não pode ser no passado!');
     }
 
@@ -37,24 +53,32 @@ export class ReservationService {
         'Data de saída deve ser após a data de entrada!',
       );
     }
+  }
 
-    const room = await this.repositoryRoom.findById(data.room_id);
+  private async findRoomOrFail(roomId: number): Promise<Room> {
+    const room = await this.repositoryRoom.findById(roomId);
     if (!room) {
       throw new NotFoundException('Quarto não encontrado');
     }
+    return room;
+  }
 
-    const reservationRoom = await this.repository.findByRoom(room.room_id);
-    for (const reservation of reservationRoom) {
+  private async ensureNoReservationConflict(
+    roomId: number,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<void> {
+    const reservations = await this.repository.findByRoom(roomId);
+
+    const hasConflict = reservations.some((reservation) => {
       const existingStart = new Date(reservation.start_date);
       const existingEnd = new Date(reservation.end_date);
-      const hasConflict = startDate < existingEnd && endDate > existingStart;
+      return startDate < existingEnd && endDate > existingStart;
+    });
 
-      if (hasConflict) {
-        throw new BadRequestException('Conflito de reserva para este período!');
-      }
+    if (hasConflict) {
+      throw new BadRequestException('Conflito de reserva para este período!');
     }
-
-    return this.repository.create({ room, user, start_date: startDate, end_date: endDate });
   }
 
   findAll(user: User, pagination: PaginationDto): Promise<PaginatedResult<Reservation>> {
