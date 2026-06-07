@@ -21,26 +21,50 @@ import { PaginationDto } from 'src/common/dto/pagination.dto';
 export class ReservationController {
   constructor(private readonly reservationService: ReservationService) {}
 
-  @Post('reservation-create')
-  @Roles(UserRole.Guest)
+  @Post()
+  @Roles(UserRole.Guest, UserRole.Admin)
   create(@Body() createReservationDto: CreateReservationDto, @Req() req) {
     return this.reservationService.create(createReservationDto, req.user);
   }
 
+  @Get('my')
+  @Roles(UserRole.Guest, UserRole.Admin)
+  findMy(@Req() req, @Query() pagination: PaginationDto) {
+    return this.reservationService.findMy(req.user, pagination);
+  }
+
+  @Get('stats/today')
+  @Roles(UserRole.Admin)
+  statsToday() {
+    return this.reservationService.statsToday();
+  }
+
+  @Post(':id/checkin')
+  @Roles(UserRole.Admin)
+  checkIn(@Param('id', ParseIntPipe) id: number) {
+    return this.reservationService.checkIn(id);
+  }
+
+  @Post(':id/checkout')
+  @Roles(UserRole.Admin)
+  checkOut(@Param('id', ParseIntPipe) id: number) {
+    return this.reservationService.checkOut(id);
+  }
+
   @Get()
-  @Roles(UserRole.Guest)
+  @Roles(UserRole.Admin)
   findAll(@Req() req, @Query() pagination: PaginationDto) {
     return this.reservationService.findAll(req.user, pagination);
   }
 
   @Get(':id')
-  @Roles(UserRole.Guest)
+  @Roles(UserRole.Guest, UserRole.Admin)
   findById(@Param('id', ParseIntPipe) id: number, @Req() req) {
     return this.reservationService.findById(id, req.user);
   }
 
   @Patch(':id')
-  @Roles(UserRole.Guest)
+  @Roles(UserRole.Admin)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateReservationDto,
@@ -50,7 +74,7 @@ export class ReservationController {
   }
 
   @Delete(':id')
-  @Roles(UserRole.Guest)
+  @Roles(UserRole.Guest, UserRole.Admin)
   delete(@Param('id', ParseIntPipe) id: number, @Req() req) {
     return this.reservationService.delete(id, req.user);
   }

@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RoomService } from './room.service';
 import { RoomType } from './entities/room-type.enum';
+import { RoomStatus } from './entities/room-status.enum';
 import { Room } from './entities/room.entity';
 
 // o mock do repositório: cada método é a função jest.fn() que pode ser configurada para retornar o que quisermos
@@ -45,7 +46,13 @@ describe('RoomService', () => {
         capacity_room: 2,
         type: RoomType.Double,
       };
-      const roomCriado: Room = { room_id: 1, ...dto, reservations: [] };
+      const roomCriado: Room = {
+        room_id: 1,
+        ...dto,
+        status: RoomStatus.Available,
+        floor: null,
+        reservations: [],
+      };
       mockRoomRepository.create.mockResolvedValue(roomCriado);
 
       // ACT: chama o método do serviço
@@ -71,6 +78,8 @@ describe('RoomService', () => {
         description_room: 'Quarto confortável com vista para o mar',
         capacity_room: 2,
         type: RoomType.Double,
+        status: RoomStatus.Available,
+        floor: null,
         reservations: [],
       };
       mockRoomRepository.findById.mockResolvedValue(roomEncontrado);
@@ -128,6 +137,8 @@ describe('RoomService', () => {
         description_room: 'Quarto atualizado com vista para o mar',
         capacity_room: 2,
         type: RoomType.Single,
+        status: RoomStatus.Available,
+        floor: null,
         reservations: [],
       };
       mockRoomRepository.update.mockResolvedValue(roomAtualizado);

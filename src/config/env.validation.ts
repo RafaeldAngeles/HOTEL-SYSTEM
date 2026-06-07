@@ -41,6 +41,9 @@ class EnvironmentVariables {
   @IsString()
   JWT_REFRESH_SECRET: string;
 
+  @IsString()
+  JWT_RESET_SECRET: string;
+
   @IsOptional()
   @IsString()
   JWT_EXPIRES: string = '15m';
@@ -48,6 +51,10 @@ class EnvironmentVariables {
   @IsOptional()
   @IsString()
   JWT_REFRESH_EXPIRES: string = '7d';
+
+  @IsOptional()
+  @IsString()
+  JWT_RESET_EXPIRES: string = '15m';
 
   @IsOptional()
   @IsInt()

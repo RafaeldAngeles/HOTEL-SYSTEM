@@ -9,4 +9,9 @@ export interface IRoomRepository {
   create(data: Partial<Room>): Promise<Room>;
   delete(id: number): Promise<void>;
   update(id: number, data: Partial<Room>): Promise<Room | null>;
+  findAvailable(
+    checkIn: Date,
+    checkOut: Date,
+    guests: number,
+  ): Promise<Room[]>;
 }

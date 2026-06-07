@@ -84,6 +84,15 @@ export class UserService {
     return this.findById(id);
   }
 
+  async updatePasswordDirect(id: number, newPassword: string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { user_id: id } });
+    if (!user) {
+      throw new BadRequestException('Usuário não encontrado');
+    }
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await this.userRepository.update(id, { password: hashed });
+  }
+
   async findAll(pagination: PaginationDto): Promise<PaginatedResult<User>> {
     const [data, total] = await this.userRepository.findAndCount({
       skip: pagination.offset,

@@ -8,6 +8,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { RoomModule } from './room/room.module';
 import { ReservationModule } from './reservation/reservation.module';
+import { PaymentModule } from './payment/payment.module';
+import { ReportsModule } from './reports/reports.module';
 import { HealthModule } from './health/health.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { RolesGuard } from './auth/roles.guard';
@@ -48,6 +50,8 @@ import { validate } from './config/env.validation';
     AuthModule,
     RoomModule,
     ReservationModule,
+    PaymentModule,
+    ReportsModule,
     HealthModule,
   ],
   providers: [
