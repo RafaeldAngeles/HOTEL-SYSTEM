@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --blue: #2563eb;
+  --blue2: #1d4ed8;
+  --blue-faint: rgba(37, 99, 235, 0.07);
+  --ink: #0f172a;
+  --ink2: #475569;
+  --ink3: #94a3b8;
+  --ink4: #cbd5e1;
+  --surface: #f8fafc;
+  --surface2: #f1f5f9;
+  --border: #e2e8f0;
+  --border2: #cbd5e1;
+  --green: #059669;
+  --green-bg: #f0fdf4;
+  --green-bor: #bbf7d0;
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --amber-bor: #fde68a;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
+  --red-bor: #fecaca;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* Regra principal do design system: fundo sempre branco */
+body {
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(37, 99, 235, 0.12);
+}
