@@ -71,8 +71,19 @@ function safeJson(text: string): unknown {
 
 function extractMessage(body: unknown): string | null {
   if (!body || typeof body !== "object") return null;
-  const m = (body as Record<string, unknown>).message;
-  if (Array.isArray(m)) return String(m[0]);
+  return normalizeMessage((body as Record<string, unknown>).message);
+}
+
+/**
+ * Extrai a mensagem do erro. O AllExceptionsFilter do backend aninha:
+ *   { message: { message: string | string[], error, statusCode } }
+ * e validações vêm como array. Trata todos os formatos recursivamente.
+ */
+function normalizeMessage(m: unknown): string | null {
   if (typeof m === "string") return m;
+  if (Array.isArray(m)) return m.length ? String(m[0]) : null;
+  if (m && typeof m === "object") {
+    return normalizeMessage((m as Record<string, unknown>).message);
+  }
   return null;
 }
