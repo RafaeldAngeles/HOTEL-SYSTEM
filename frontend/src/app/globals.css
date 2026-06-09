@@ -47,3 +47,41 @@ body {
 ::selection {
   background: rgba(37, 99, 235, 0.12);
 }
+
+/* Foco de teclado sempre visível (acessibilidade) */
+:focus-visible {
+  outline: none;
+}
+
+/* ── Reveal escalonado no load ──────────────────────────────────── */
+@keyframes gv-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gv-reveal {
+  opacity: 0;
+  animation: gv-reveal 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Respeita usuários que pedem menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .gv-reveal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
