@@ -33,6 +33,9 @@ export class Room {
   @Column({ type: 'int', nullable: true })
   floor!: number | null;
 
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  image_url!: string | null;
+
   @OneToMany(() => Reservation, (reservation) => reservation.room)
   reservations!: Reservation[];
 }

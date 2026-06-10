@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Bloco1Schema1780795846042 implements MigrationInterface {
-    name = 'Bloco1Schema1780795846042'
+export class InitialSchema1780795846042 implements MigrationInterface {
+    name = 'InitialSchema1780795846042'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE \`revoked_token\` (\`id\` int NOT NULL AUTO_INCREMENT, \`jti\` varchar(64) NOT NULL, \`user_id\` int NOT NULL, \`expires_at\` datetime NOT NULL, \`revoked_at\` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), UNIQUE INDEX \`IDX_51805a32c382d2841b953c1688\` (\`jti\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`);

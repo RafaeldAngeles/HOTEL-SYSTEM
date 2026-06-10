@@ -51,6 +51,7 @@ describe('RoomService', () => {
         ...dto,
         status: RoomStatus.Available,
         floor: null,
+        image_url: null,
         reservations: [],
       };
       mockRoomRepository.create.mockResolvedValue(roomCriado);
@@ -80,6 +81,7 @@ describe('RoomService', () => {
         type: RoomType.Double,
         status: RoomStatus.Available,
         floor: null,
+        image_url: null,
         reservations: [],
       };
       mockRoomRepository.findById.mockResolvedValue(roomEncontrado);
@@ -139,6 +141,7 @@ describe('RoomService', () => {
         type: RoomType.Single,
         status: RoomStatus.Available,
         floor: null,
+        image_url: null,
         reservations: [],
       };
       mockRoomRepository.update.mockResolvedValue(roomAtualizado);

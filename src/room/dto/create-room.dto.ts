@@ -1,4 +1,13 @@
-import { IsEnum, IsInt, IsNumber, IsString, Min, MinLength } from 'class-validator';
+import {
+  IsEnum,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+  Min,
+  MinLength,
+} from 'class-validator';
 import { RoomType } from '../entities/room-type.enum';
 
 export class CreateRoomDto {
@@ -20,4 +29,10 @@ export class CreateRoomDto {
 
   @IsEnum(RoomType)
   type!: RoomType;
+
+  /** URL da foto do quarto (opcional). */
+  @IsOptional()
+  @IsString()
+  @MaxLength(500)
+  image_url?: string;
 }
