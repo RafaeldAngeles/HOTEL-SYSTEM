@@ -14,7 +14,7 @@ const AUTH_ROUTES = [
 ];
 
 // Áreas que exigem login (backend exige JWT nelas).
-const PROTECTED_PREFIXES = ["/admin", "/account", "/booking"];
+const PROTECTED_PREFIXES = ["/admin", "/account", "/booking", "/reservations"];
 
 // Subconjunto restrito a administradores.
 const ADMIN_PREFIX = "/admin";

@@ -1,3 +1,5 @@
+import type { Room } from "@/types/room";
+
 export type ReservationStatus =
   | "reservado"
   | "disponivel"
@@ -33,4 +35,12 @@ export interface Reservation {
   guest_cpf: string | null;
   notes: string | null;
   created: string;
+}
+
+/**
+ * Reserva com o quarto embutido — formato de GET /reservation/my, que
+ * carrega a relação `room` (ver findAllPaginated no backend).
+ */
+export interface ReservationWithRoom extends Reservation {
+  room: Room;
 }

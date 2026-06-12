@@ -353,8 +353,14 @@ function ConfirmationCard({
 
       <div className="mt-7 flex flex-col gap-2.5">
         <Link
-          href="/rooms"
+          href="/reservations"
           className="inline-flex h-11 items-center justify-center rounded-md bg-blue px-6 text-[13px] font-medium text-white transition-colors hover:bg-blue-dark"
+        >
+          Ver minhas reservas
+        </Link>
+        <Link
+          href="/rooms"
+          className="inline-flex h-11 items-center justify-center rounded-md border border-border px-6 text-[13px] font-medium text-ink-2 transition-colors hover:bg-surface"
         >
           Voltar aos quartos
         </Link>

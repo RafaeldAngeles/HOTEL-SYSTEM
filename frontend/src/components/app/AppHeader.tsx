@@ -28,6 +28,20 @@ export function AppHeader({ user }: { user: User }) {
         </Link>
 
         <div className="flex items-center gap-4">
+          <nav className="hidden items-center gap-1 sm:flex">
+            <Link
+              href="/rooms"
+              className="rounded-md px-3 py-1.5 text-[13px] font-medium text-ink-2 transition-colors hover:bg-surface hover:text-ink"
+            >
+              Quartos
+            </Link>
+            <Link
+              href="/reservations"
+              className="rounded-md px-3 py-1.5 text-[13px] font-medium text-ink-2 transition-colors hover:bg-surface hover:text-ink"
+            >
+              Minhas reservas
+            </Link>
+          </nav>
           <div className="hidden items-center gap-2.5 sm:flex">
             <span className="grid h-8 w-8 place-items-center rounded-full bg-blue-faint text-[11px] font-semibold text-blue">
               {initials(user.name)}
